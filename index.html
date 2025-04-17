@@ -1,69 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Asif's Girlfriend Quiz</title>
+  <title>Asif's GF Quiz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
       text-align: center;
-      font-size: 20px;
+      padding: 30px;
     }
     .question {
-      font-size: 36px; /* Increased font size for questions */
-      margin: 30px 0 10px;
-    }
-    button {
-      display: block;
-      margin: 10px auto;
-      padding: 15px 25px; /* Increased padding for larger buttons */
-      font-size: 24px;  /* Increased font size for buttons */
-      cursor: pointer;
-      width: 60%; /* Adjusted width for better button alignment */
-    }
-    #score {
-      font-size: 30px; /* Increased font size for score */
-      margin-top: 15px;
-    }
-    #startButton {
       font-size: 24px;
-      padding: 20px 40px;
-      cursor: pointer;
-      width: 50%;
-      margin: 30px auto;
+      margin: 20px 0;
     }
-    img {
-      max-width: 100%;
-      height: auto;
-      margin-top: 20px;
+    .option {
+      display: block;
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    #scoreDisplay {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    #startBtn {
+      font-size: 22px;
+      padding: 10px 30px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <h2>Hi, I am Asif :3</h2>
-  <p id="introText">I want you to answer these 5 questions and at the end you will get a girlfriend according to your score.</p>
-  
-  <button id="startButton" onclick="startQuiz()">Start</button>
 
-  <div id="quiz" style="display:none"></div>
-  <p id="score" style="display:none">Score: 0/20</p>
-  <img id="partnerImage" style="display:none" />
+  <div id="intro">
+    <h1>Hi, I am Asif :3</h1>
+    <p>I want you to answer these 5 questions and at the end you will get a girlfriend according to your score.</p>
+    <button id="startBtn" onclick="startQuiz()">Start</button>
+  </div>
 
-  <!-- Audio tags for score sounds -->
-  <audio id="score4" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score4.mp3"></audio>
-  <audio id="score3" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score3.mp3"></audio>
-  <audio id="score2" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score2.mp3"></audio>
+  <div id="quiz" style="display:none;">
+    <p id="scoreDisplay">Score: 0</p>
+    <p class="question" id="questionText"></p>
+    <div id="options"></div>
+  </div>
 
-  <!-- Audio tags for final partner sounds -->
-  <audio id="gandhi" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/gandhi.mp3"></audio>
-  <audio id="tuntun" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/tuntun.mp3"></audio>
-  <audio id="download" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/download.mp3"></audio>
-  <audio id="sydney" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/sydney.mp3"></audio>
+  <div id="result" style="display:none;">
+    <h2>Here is your gf:</h2>
+    <p id="finalScore"></p>
+    <img id="gfImage" style="max-width: 90%; height: auto;" />
+    <div id="commentBox" style="margin-top: 30px;">
+      <p style="font-size: 20px;">How do you feel about your new gf?</p>
+      <form action="https://formspree.io/f/mnnpkqlj" method="POST">
+        <textarea name="message" rows="4" cols="50" placeholder="Write your thoughts here..." required></textarea><br><br>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="score4" src="score4.mp3"></audio>
+  <audio id="score3" src="score3.mp3"></audio>
+  <audio id="score2" src="score2.mp3"></audio>
+
+  <!-- Final Result Audios -->
+  <audio id="gandhi" src="gandhi.mp3"></audio>
+  <audio id="tuntun" src="tuntun.mp3"></audio>
+  <audio id="download" src="download.mp3"></audio>
+  <audio id="sydney" src="sydney.mp3"></audio>
 
   <script>
     const questions = [
       {
-        text: "1. What do you think of me?",
+        text: "What do you think of me?",
         options: [
           { text: "You are a Legend", score: 4 },
           { text: "I like you", score: 3 },
@@ -72,7 +80,7 @@
         ]
       },
       {
-        text: "2. Which is my favourite sport?",
+        text: "Which is my favourite sport?",
         options: [
           { text: "Cricket", score: 2 },
           { text: "Football", score: 4 },
@@ -81,7 +89,7 @@
         ]
       },
       {
-        text: "3. Who is the best football player of all time?",
+        text: "Who is the best football player of all time?",
         options: [
           { text: "Pele", score: 2 },
           { text: "Ronaldo jr", score: 1 },
@@ -90,16 +98,16 @@
         ]
       },
       {
-        text: "4. Whom would you smash?",
+        text: "Whom would you smash?",
         options: [
           { text: "Chutki", score: 1 },
-          { text: "Harley Queens", score: 3 },
           { text: "Kaguya sama", score: 2 },
+          { text: "Harley Queens", score: 3 },
           { text: "B2", score: 4 }
         ]
       },
       {
-        text: "5. Who proved that the conservation of energy doesn't apply in reality in large scale of time and distance?",
+        text: "Who proved that conservation of energy doesn't apply in large time & space?",
         options: [
           { text: "Einstein", score: 1 },
           { text: "Newton", score: 2 },
@@ -109,77 +117,77 @@
       }
     ];
 
-    const quizContainer = document.getElementById("quiz");
-    const scoreDisplay = document.getElementById("score");
-    const partnerImage = document.getElementById("partnerImage");
-    const introText = document.getElementById("introText");
     let currentQuestion = 0;
     let totalScore = 0;
 
-    function playScoreSound(score) {
-      let audio;
-      if (score === 4) audio = document.getElementById("score4");
-      else if (score === 3 || score === 2) audio = document.getElementById("score3");
-      else if (score === 1) audio = document.getElementById("score2");
-      
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play();
-      }
-    }
-
-    function playFinalSound(imageName) {
-      const soundId = imageName.split('.')[0]; // sydney, download, tuntun, gandhi
-      const audio = document.getElementById(soundId);
-      if (audio) {
-        audio.currentTime = 0;
-        audio.play();
-      }
-    }
-
     function startQuiz() {
-      introText.style.display = "none"; // Hide intro text
-      document.getElementById("startButton").style.display = "none"; // Hide start button
-      quizContainer.style.display = "block"; // Show quiz container
-      scoreDisplay.style.display = "block"; // Show score
+      document.getElementById("intro").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
       showQuestion();
     }
 
     function showQuestion() {
-      if (currentQuestion >= questions.length) {
-        showResult();
-        return;
-      }
+      const question = questions[currentQuestion];
+      document.getElementById("questionText").innerText = question.text;
 
-      const q = questions[currentQuestion];
-      quizContainer.innerHTML = `<div class="question">${q.text}</div>`;
-      q.options.forEach(option => {
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      question.options.forEach(opt => {
         const btn = document.createElement("button");
-        btn.textContent = option.text;
-        btn.onclick = () => {
-          totalScore += option.score;
-          playScoreSound(option.score);
-          currentQuestion++;
-          scoreDisplay.textContent = `Score: ${totalScore}/20`;
-          showQuestion();
-        };
-        quizContainer.appendChild(btn);
+        btn.innerText = opt.text;
+        btn.className = "option";
+        btn.onclick = () => handleAnswer(opt.score);
+        optionsDiv.appendChild(btn);
       });
     }
 
+    function playSound(score) {
+      if (score === 4) document.getElementById("score4").play();
+      else if (score === 3 || score === 2) document.getElementById("score3").play();
+      else document.getElementById("score2").play();
+    }
+
+    function handleAnswer(score) {
+      playSound(score);
+      totalScore += score;
+      currentQuestion++;
+
+      document.getElementById("scoreDisplay").innerText = "Score: " + totalScore;
+
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
+
     function showResult() {
-      quizContainer.innerHTML = `<div class="question">Here is your GF:</div>`;
-      let imageName = "";
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("result").style.display = "block";
 
-      if (totalScore > 15) imageName = "sydney.jpeg";
-      else if (totalScore > 10) imageName = "download.jpeg";
-      else if (totalScore > 8) imageName = "tuntun.jpeg";
-      else imageName = "gandhi.jpeg";
+      document.getElementById("finalScore").innerText = totalScore + "/20";
 
-      partnerImage.src = `https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/${imageName}`;
-      partnerImage.style.display = "block";
-      playFinalSound(imageName);
+      let img = "", audio = "";
+
+      if (totalScore > 15) {
+        img = "sydney.jpeg";
+        audio = "sydney";
+      } else if (totalScore > 10) {
+        img = "download.jpeg";
+        audio = "download";
+      } else if (totalScore > 8) {
+        img = "tuntun.jpeg";
+        audio = "tuntun";
+      } else {
+        img = "gandhi.jpeg";
+        audio = "gandhi";
+      }
+
+      document.getElementById("gfImage").src = img;
+      document.getElementById(audio).play();
     }
   </script>
+
 </body>
 </html>
