@@ -5,53 +5,54 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      padding: 20px;
       text-align: center;
-      padding: 40px;
     }
     .question {
-      margin-bottom: 30px;
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 22px;
+      margin: 30px 0 10px;
     }
     button {
-      margin: 10px;
+      display: block;
+      margin: 10px auto;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
     }
-    #result {
-      display: none;
-      margin-top: 40px;
-    }
     #score {
       font-size: 18px;
-      font-weight: normal;
+      margin-top: 15px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
+  <h2>Hi, I am Asif :3</h2>
+  <p>I want you to answer these 5 questions and at the end you will get a girlfriend according to your score.</p>
+  <div id="quiz"></div>
+  <p id="score">Score: 0/20</p>
+  <img id="partnerImage" style="display:none" />
 
-  <h1>Hi, I am Asif :3, I want you to answer these 5 questions and at the end you will get a girlfriend according to your score!</h1>
+  <!-- Audio tags for score sounds -->
+  <audio id="score1" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score1.mp3"></audio>
+  <audio id="score2" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score2.mp3"></audio>
+  <audio id="score3" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score3.mp3"></audio>
+  <audio id="score4" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score4.mp3"></audio>
 
-  <div id="score">Current Score: 0/20</div>
-
-  <div id="quizSection">
-    <div id="questionText" class="question"></div>
-    <div id="optionsContainer"></div>
-  </div>
-
-  <div id="result">
-    <h2>Here is your gf:</h2>
-    <img id="partnerImage" style="max-width: 100%; height: auto;" />
-    <p id="totalScoreText"></p>
-  </div>
+  <!-- Audio tags for final partner sounds -->
+  <audio id="gandhi" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/gandhi.mp3"></audio>
+  <audio id="tuntun" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/tuntun.mp3"></audio>
+  <audio id="download" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/download.mp3"></audio>
+  <audio id="sydney" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/sydney.mp3"></audio>
 
   <script>
-    const repoURL = "https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/";
-
     const questions = [
       {
-        text: "What do you think of me?",
+        text: "1. What do you think of me?",
         options: [
           { text: "You are a Legend", score: 4 },
           { text: "I like you", score: 3 },
@@ -60,7 +61,7 @@
         ]
       },
       {
-        text: "Which is my favourite sport?",
+        text: "2. Which is my favourite sport?",
         options: [
           { text: "Cricket", score: 2 },
           { text: "Football", score: 4 },
@@ -69,7 +70,7 @@
         ]
       },
       {
-        text: "Who is the best football player of all time?",
+        text: "3. Who is the best football player of all time?",
         options: [
           { text: "Pele", score: 2 },
           { text: "Ronaldo jr", score: 1 },
@@ -78,16 +79,16 @@
         ]
       },
       {
-        text: "Whom would you smash?",
+        text: "4. Whom would you smash?",
         options: [
           { text: "Chutki", score: 1 },
-          { text: "Harley Quinn", score: 3 },
-          { text: "Kaguya Sama", score: 2 },
+          { text: "Harley Queens", score: 3 },
+          { text: "Kaguya sama", score: 2 },
           { text: "B2", score: 4 }
         ]
       },
       {
-        text: "Who proved that the conservation of energy doesn't apply in reality in large scale of time and distance?",
+        text: "5. Who proved that the conservation of energy doesn't apply in reality in large scale of time and distance?",
         options: [
           { text: "Einstein", score: 1 },
           { text: "Newton", score: 2 },
@@ -97,62 +98,66 @@
       }
     ];
 
-    const partners = [
-      { min: 16, image: "sydney.jpeg" },
-      { min: 11, image: "download.jpeg" },  // previously shizuka
-      { min: 9, image: "tuntun.jpeg" },
-      { min: 3, image: "gandhi.jpeg" }
-    ];
-
-    const maxScore = 20;
+    const quizContainer = document.getElementById("quiz");
+    const scoreDisplay = document.getElementById("score");
+    const partnerImage = document.getElementById("partnerImage");
     let currentQuestion = 0;
     let totalScore = 0;
 
-    const questionText = document.getElementById("questionText");
-    const optionsContainer = document.getElementById("optionsContainer");
-    const resultDiv = document.getElementById("result");
-    const partnerImage = document.getElementById("partnerImage");
-    const totalScoreText = document.getElementById("totalScoreText");
-    const scoreCounter = document.getElementById("score");
+    function playScoreSound(score) {
+      const audio = document.getElementById("score" + score);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      }
+    }
+
+    function playFinalSound(imageName) {
+      const soundId = imageName.split('.')[0]; // sydney, download, tuntun, gandhi
+      const audio = document.getElementById(soundId);
+      if (audio) {
+        audio.currentTime = 0;
+        audio.play();
+      }
+    }
 
     function showQuestion() {
-      const q = questions[currentQuestion];
-      questionText.textContent = q.text;
-      optionsContainer.innerHTML = "";
+      if (currentQuestion >= questions.length) {
+        showResult();
+        return;
+      }
 
+      const q = questions[currentQuestion];
+      quizContainer.innerHTML = `<div class="question">${q.text}</div>`;
       q.options.forEach(option => {
         const btn = document.createElement("button");
         btn.textContent = option.text;
         btn.onclick = () => {
           totalScore += option.score;
-          scoreCounter.textContent = `Current Score: ${totalScore}/${maxScore}`;
+          playScoreSound(option.score);
           currentQuestion++;
-          if (currentQuestion < questions.length) {
-            showQuestion();
-          } else {
-            showResult();
-          }
+          scoreDisplay.textContent = `Score: ${totalScore}/20`;
+          showQuestion();
         };
-        optionsContainer.appendChild(btn);
+        quizContainer.appendChild(btn);
       });
     }
 
     function showResult() {
-      document.getElementById("quizSection").style.display = "none";
-      resultDiv.style.display = "block";
+      quizContainer.innerHTML = `<div class="question">Here is your GF:</div>`;
+      let imageName = "";
 
-      const match = partners.find(p => totalScore >= p.min);
-      if (match) {
-        partnerImage.src = repoURL + match.image;
-      } else {
-        partnerImage.alt = "No gf found.";
-      }
+      if (totalScore > 15) imageName = "sydney.jpeg";
+      else if (totalScore > 10) imageName = "download.jpeg";
+      else if (totalScore > 8) imageName = "tuntun.jpeg";
+      else imageName = "gandhi.jpeg";
 
-      totalScoreText.textContent = `Your total score is: ${totalScore}/${maxScore}`;
+      partnerImage.src = `https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/${imageName}`;
+      partnerImage.style.display = "block";
+      playFinalSound(imageName);
     }
 
     showQuestion();
   </script>
-
 </body>
 </html>
