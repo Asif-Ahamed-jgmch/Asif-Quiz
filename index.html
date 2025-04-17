@@ -50,10 +50,9 @@
   <img id="partnerImage" style="display:none" />
 
   <!-- Audio tags for score sounds -->
-  <audio id="score1" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score1.mp3"></audio>
-  <audio id="score2" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score2.mp3"></audio>
-  <audio id="score3" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score3.mp3"></audio>
   <audio id="score4" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score4.mp3"></audio>
+  <audio id="score3" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score3.mp3"></audio>
+  <audio id="score2" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/score2.mp3"></audio>
 
   <!-- Audio tags for final partner sounds -->
   <audio id="gandhi" src="https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/gandhi.mp3"></audio>
@@ -117,7 +116,11 @@
     let totalScore = 0;
 
     function playScoreSound(score) {
-      const audio = document.getElementById("score" + score);
+      let audio;
+      if (score === 4) audio = document.getElementById("score4");
+      else if (score === 3 || score === 2) audio = document.getElementById("score3");
+      else if (score === 1) audio = document.getElementById("score2");
+      
       if (audio) {
         audio.currentTime = 0;
         audio.play();
