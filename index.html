@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Asif's Partner Quiz</title>
+  <title>Asif's Girlfriend Quiz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,6 +10,8 @@
     }
     .question {
       margin-bottom: 30px;
+      font-size: 24px;
+      font-weight: bold;
     }
     button {
       margin: 10px;
@@ -21,11 +23,17 @@
       display: none;
       margin-top: 40px;
     }
+    #score {
+      font-size: 18px;
+      font-weight: normal;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Hi, I am Asif :3, I want you to answer these 5 questions and at the end you will get a partner!</h1>
+  <h1>Hi, I am Asif :3, I want you to answer these 5 questions and at the end you will get a girlfriend according to your score!</h1>
+
+  <div id="score">Current Score: 0/20</div>
 
   <div id="quizSection">
     <div id="questionText" class="question"></div>
@@ -33,7 +41,7 @@
   </div>
 
   <div id="result">
-    <h2>Here is your partner:</h2>
+    <h2>Here is your gf:</h2>
     <img id="partnerImage" style="max-width: 100%; height: auto;" />
     <p id="totalScoreText"></p>
   </div>
@@ -105,6 +113,7 @@
     const resultDiv = document.getElementById("result");
     const partnerImage = document.getElementById("partnerImage");
     const totalScoreText = document.getElementById("totalScoreText");
+    const scoreCounter = document.getElementById("score");
 
     function showQuestion() {
       const q = questions[currentQuestion];
@@ -116,6 +125,7 @@
         btn.textContent = option.text;
         btn.onclick = () => {
           totalScore += option.score;
+          scoreCounter.textContent = `Current Score: ${totalScore}/${maxScore}`;
           currentQuestion++;
           if (currentQuestion < questions.length) {
             showQuestion();
@@ -131,12 +141,12 @@
       document.getElementById("quizSection").style.display = "none";
       resultDiv.style.display = "block";
 
-      // Find the partner based on score
+      // Find the girlfriend based on score
       const match = partners.find(p => totalScore >= p.min);
       if (match) {
         partnerImage.src = repoURL + match.image;
       } else {
-        partnerImage.alt = "No partner found.";
+        partnerImage.alt = "No gf found.";
       }
 
       // Show the total score
