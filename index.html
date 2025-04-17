@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Random Partner</title>
+  <title>Asif's Partner Quiz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
+    }
+    .question {
+      margin-bottom: 30px;
     }
     button {
       margin: 10px;
@@ -14,40 +17,127 @@
       font-size: 16px;
       cursor: pointer;
     }
-    #resultSection {
+    #result {
       display: none;
-      margin-top: 30px;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
-  <h1>What do you think of me (Asif)?<br>btw your response will get you a partner for you :)</h1>
+  <h1>Hi, I am Asif :3, I want you to answer these 5 questions and at the end you will get a partner!</h1>
 
-  <button onclick="showPartner('legend')">He is a legend</button>
-  <button onclick="showPartner('like')">I like him</button>
-  <button onclick="showPartner('good')">He's a good guy</button>
-  <button onclick="showPartner('hate')">I hate him</button>
+  <div id="quizSection">
+    <div id="questionText" class="question"></div>
+    <div id="optionsContainer"></div>
+  </div>
 
-  <div id="resultSection">
+  <div id="result">
+    <h2>Here is your partner:</h2>
     <img id="partnerImage" style="max-width: 100%; height: auto;" />
   </div>
 
   <script>
     const repoURL = "https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/";
 
-    const imageMap = {
-      legend: "sydney.jpeg",
-      like: "download.jpeg",
-      good: "tuntun.jpeg",
-      hate: "gandhi.jpeg"
-    };
+    const questions = [
+      {
+        text: "What do you think of me?",
+        options: [
+          { text: "You are a Legend (4)", score: 4 },
+          { text: "I like you (3)", score: 3 },
+          { text: "You are a good guy (2)", score: 2 },
+          { text: "I hate you >:3 (1)", score: 1 }
+        ]
+      },
+      {
+        text: "Which is my favourite sport?",
+        options: [
+          { text: "Cricket (3)", score: 3 },
+          { text: "Football (4)", score: 4 },
+          { text: "Kana machi vo vo (1)", score: 1 },
+          { text: "PUBG (2)", score: 2 }
+        ]
+      },
+      {
+        text: "Who is the best football player of all time?",
+        options: [
+          { text: "Pele (2)", score: 2 },
+          { text: "Ronaldo jr (1)", score: 1 },
+          { text: "Messi (4)", score: 4 },
+          { text: "Maradona (3)", score: 3 }
+        ]
+      },
+      {
+        text: "Whom would you smash?",
+        options: [
+          { text: "Chutki", score: 1 },
+          { text: "Harley Quinn", score: 2 },
+          { text: "Kaguya Sama", score: 4 },
+          { text: "B2", score: 3 }
+        ]
+      },
+      {
+        text: "Who proved that the conservation of energy doesn't apply in reality in large scale of time and distance?",
+        options: [
+          { text: "Einstein (1)", score: 1 },
+          { text: "Newton (2)", score: 2 },
+          { text: "Asif (3)", score: 3 },
+          { text: "Noether (woman) (4)", score: 4 }
+        ]
+      }
+    ];
 
-    function showPartner(choice) {
-      const imageName = imageMap[choice];
-      document.getElementById("partnerImage").src = repoURL + imageName;
-      document.getElementById("resultSection").style.display = "block";
+    const partners = [
+      { min: 16, image: "sydney.jpeg" },
+      { min: 11, image: "shizuka.jpeg" },
+      { min: 9, image: "tuntun.jpeg" },
+      { min: 3, image: "gandhi.jpeg" }
+    ];
+
+    let currentQuestion = 0;
+    let totalScore = 0;
+
+    const questionText = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const resultDiv = document.getElementById("result");
+    const partnerImage = document.getElementById("partnerImage");
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      questionText.textContent = q.text;
+      optionsContainer.innerHTML = "";
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option.text;
+        btn.onclick = () => {
+          totalScore += option.score;
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            showQuestion();
+          } else {
+            showResult();
+          }
+        };
+        optionsContainer.appendChild(btn);
+      });
     }
+
+    function showResult() {
+      document.getElementById("quizSection").style.display = "none";
+      resultDiv.style.display = "block";
+
+      const match = partners.find(p => totalScore >= p.min);
+      if (match) {
+        partnerImage.src = repoURL + match.image;
+      } else {
+        partnerImage.alt = "No partner found.";
+      }
+    }
+
+    // Start the quiz
+    showQuestion();
   </script>
 
 </body>
