@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Random Partner</title>
+</head>
+<body>
+  <h1>Here's your random partner</h1>
+  <img id="randomImage" style="max-width: 100%; height: auto;" />
+  <br><br>
+  <button onclick="showRandomImage()">Get Another Partner</button>
+
+  <script>
+    const images = [
+      "download.jpeg",
+      "gandhi.jpeg",
+      "sydney.jpeg",
+      "tuntun.jpeg"
+      // Add more image filenames here if needed
+    ];
+
+    const repoURL = "https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/";
+
+    function showRandomImage() {
+      const random = Math.floor(Math.random() * images.length);
+      document.getElementById("randomImage").src = repoURL + images[random];
+    }
+
+    // Show one image when the page loads
+    showRandomImage();
+  </script>
+</body>
+</html>
