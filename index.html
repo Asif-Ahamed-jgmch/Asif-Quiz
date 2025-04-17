@@ -10,19 +10,19 @@
       font-size: 20px;
     }
     .question {
-      font-size: 26px; /* Increased font size */
+      font-size: 36px; /* Increased font size for questions */
       margin: 30px 0 10px;
     }
     button {
       display: block;
       margin: 10px auto;
       padding: 15px 25px; /* Increased padding for larger buttons */
-      font-size: 20px;  /* Increased font size */
+      font-size: 24px;  /* Increased font size for buttons */
       cursor: pointer;
       width: 60%; /* Adjusted width for better button alignment */
     }
     #score {
-      font-size: 24px;
+      font-size: 30px; /* Increased font size for score */
       margin-top: 15px;
     }
     #startButton {
@@ -41,7 +41,7 @@
 </head>
 <body>
   <h2>Hi, I am Asif :3</h2>
-  <p>I want you to answer these 5 questions and at the end you will get a girlfriend according to your score.</p>
+  <p id="introText">I want you to answer these 5 questions and at the end you will get a girlfriend according to your score.</p>
   
   <button id="startButton" onclick="startQuiz()">Start</button>
 
@@ -112,6 +112,7 @@
     const quizContainer = document.getElementById("quiz");
     const scoreDisplay = document.getElementById("score");
     const partnerImage = document.getElementById("partnerImage");
+    const introText = document.getElementById("introText");
     let currentQuestion = 0;
     let totalScore = 0;
 
@@ -137,6 +138,7 @@
     }
 
     function startQuiz() {
+      introText.style.display = "none"; // Hide intro text
       document.getElementById("startButton").style.display = "none"; // Hide start button
       quizContainer.style.display = "block"; // Show quiz container
       scoreDisplay.style.display = "block"; // Show score
