@@ -35,6 +35,7 @@
   <div id="result">
     <h2>Here is your partner:</h2>
     <img id="partnerImage" style="max-width: 100%; height: auto;" />
+    <p id="totalScoreText"></p>
   </div>
 
   <script>
@@ -44,28 +45,28 @@
       {
         text: "What do you think of me?",
         options: [
-          { text: "You are a Legend (4)", score: 4 },
-          { text: "I like you (3)", score: 3 },
-          { text: "You are a good guy (2)", score: 2 },
-          { text: "I hate you >:3 (1)", score: 1 }
+          { text: "You are a Legend", score: 4 },
+          { text: "I like you", score: 3 },
+          { text: "You are a good guy", score: 2 },
+          { text: "I hate you >:3", score: 1 }
         ]
       },
       {
         text: "Which is my favourite sport?",
         options: [
-          { text: "Cricket (3)", score: 3 },
-          { text: "Football (4)", score: 4 },
-          { text: "Kana machi vo vo (1)", score: 1 },
-          { text: "PUBG (2)", score: 2 }
+          { text: "Cricket", score: 3 },
+          { text: "Football", score: 4 },
+          { text: "Kana machi vo vo", score: 1 },
+          { text: "PUBG", score: 2 }
         ]
       },
       {
         text: "Who is the best football player of all time?",
         options: [
-          { text: "Pele (2)", score: 2 },
-          { text: "Ronaldo jr (1)", score: 1 },
-          { text: "Messi (4)", score: 4 },
-          { text: "Maradona (3)", score: 3 }
+          { text: "Pele", score: 2 },
+          { text: "Ronaldo jr", score: 1 },
+          { text: "Messi", score: 4 },
+          { text: "Maradona", score: 3 }
         ]
       },
       {
@@ -80,10 +81,10 @@
       {
         text: "Who proved that the conservation of energy doesn't apply in reality in large scale of time and distance?",
         options: [
-          { text: "Einstein (1)", score: 1 },
-          { text: "Newton (2)", score: 2 },
-          { text: "Asif (3)", score: 3 },
-          { text: "Noether (woman) (4)", score: 4 }
+          { text: "Einstein", score: 1 },
+          { text: "Newton", score: 2 },
+          { text: "Asif", score: 3 },
+          { text: "Noether (woman)", score: 4 }
         ]
       }
     ];
@@ -95,6 +96,7 @@
       { min: 3, image: "gandhi.jpeg" }
     ];
 
+    const maxScore = 20; // Maximum score possible
     let currentQuestion = 0;
     let totalScore = 0;
 
@@ -102,6 +104,7 @@
     const optionsContainer = document.getElementById("optionsContainer");
     const resultDiv = document.getElementById("result");
     const partnerImage = document.getElementById("partnerImage");
+    const totalScoreText = document.getElementById("totalScoreText");
 
     function showQuestion() {
       const q = questions[currentQuestion];
@@ -128,12 +131,16 @@
       document.getElementById("quizSection").style.display = "none";
       resultDiv.style.display = "block";
 
+      // Find the partner based on score
       const match = partners.find(p => totalScore >= p.min);
       if (match) {
         partnerImage.src = repoURL + match.image;
       } else {
         partnerImage.alt = "No partner found.";
       }
+
+      // Show the total score
+      totalScoreText.textContent = `Your total score is: ${totalScore}/${maxScore}`;
     }
 
     // Start the quiz
