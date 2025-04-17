@@ -15,14 +15,24 @@
       "gandhi.jpeg",
       "sydney.jpeg",
       "tuntun.jpeg"
-      // Add more image filenames here if needed
     ];
 
     const repoURL = "https://raw.githubusercontent.com/Asif-Ahamed-jgmch/Your-random-partner/main/";
 
     function showRandomImage() {
       const random = Math.floor(Math.random() * images.length);
-      document.getElementById("randomImage").src = repoURL + images[random];
+      const imageURL = repoURL + images[random];
+
+      // Ensure the image URL is valid by testing it before setting it
+      const img = new Image();
+      img.onload = function() {
+        document.getElementById("randomImage").src = imageURL;
+      };
+      img.onerror = function() {
+        console.error("Image failed to load: " + imageURL);
+      };
+      
+      img.src = imageURL;
     }
 
     // Show one image when the page loads
