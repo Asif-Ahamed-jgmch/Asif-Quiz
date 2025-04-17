@@ -62,10 +62,10 @@
       {
         text: "Which is my favourite sport?",
         options: [
-          { text: "Cricket", score: 3 },
+          { text: "Cricket", score: 2 },
           { text: "Football", score: 4 },
           { text: "Kana machi vo vo", score: 1 },
-          { text: "PUBG", score: 2 }
+          { text: "PUBG", score: 3 }
         ]
       },
       {
@@ -81,9 +81,9 @@
         text: "Whom would you smash?",
         options: [
           { text: "Chutki", score: 1 },
-          { text: "Harley Quinn", score: 2 },
-          { text: "Kaguya Sama", score: 4 },
-          { text: "B2", score: 3 }
+          { text: "Harley Quinn", score: 3 },
+          { text: "Kaguya Sama", score: 2 },
+          { text: "B2", score: 4 }
         ]
       },
       {
@@ -99,12 +99,12 @@
 
     const partners = [
       { min: 16, image: "sydney.jpeg" },
-      { min: 11, image: "shizuka.jpeg" },
+      { min: 11, image: "download.jpeg" },  // previously shizuka
       { min: 9, image: "tuntun.jpeg" },
       { min: 3, image: "gandhi.jpeg" }
     ];
 
-    const maxScore = 20; // Maximum score possible
+    const maxScore = 20;
     let currentQuestion = 0;
     let totalScore = 0;
 
@@ -141,7 +141,6 @@
       document.getElementById("quizSection").style.display = "none";
       resultDiv.style.display = "block";
 
-      // Find the girlfriend based on score
       const match = partners.find(p => totalScore >= p.min);
       if (match) {
         partnerImage.src = repoURL + match.image;
@@ -149,11 +148,9 @@
         partnerImage.alt = "No gf found.";
       }
 
-      // Show the total score
       totalScoreText.textContent = `Your total score is: ${totalScore}/${maxScore}`;
     }
 
-    // Start the quiz
     showQuestion();
   </script>
 
